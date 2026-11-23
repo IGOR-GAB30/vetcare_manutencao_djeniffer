@@ -1,12 +1,35 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/auth.php';
+
 exigirLogin();
+
 $titulo = 'Consultas';
+
 $status = $_GET['status'] ?? '';
-$sql = "SELECT c.*,a.nome AS animal FROM consultas c JOIN animais a ON a.id=c.animal_id";
-$rows = $pdo->query($sql . " ORDER BY c.data_consulta DESC")->fetchAll();
-include __DIR__ . '/../includes/header.php'; ?>
+
+$sql = "SELECT c.*, a.nome AS animal
+        FROM consultas c
+        JOIN animais a ON a.id = c.animal_id";
+
+if ($status !== '') {
+    $sql .= " WHERE c.status = ?";
+}
+
+$sql .= " ORDER BY c.data_consulta DESC";
+
+$stmt = $pdo->prepare($sql);
+
+if ($status !== '') {
+    $stmt->execute([$status]);
+} else {
+    $stmt->execute();
+}
+
+$rows = $stmt->fetchAll();
+
+include __DIR__ . '/../includes/header.php';
+?>
 <h1>Consultas</h1>
 <p class="muted">Agenda e histórico de atendimentos.</p>
 <div class="actions"><a class="btn" href="form.php">+ Nova consulta</a></div>

@@ -42,9 +42,3 @@ include __DIR__ . '/../includes/header.php';
     </table>
 </div>
 <?php include __DIR__ . '/../includes/footer.php'; ?>
-<script>
-    function testeErro(event) {
-        event.preventDefault();
-        alert("Teste - Erro ao tentar cadastrar tutor. Tente novamente mais tarde.");
-    }
-</script>

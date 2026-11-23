@@ -100,3 +100,239 @@ CREATE TABLE historico_chamados (
   criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_historico_chamado FOREIGN KEY (chamado_id) REFERENCES chamados(id) ON DELETE CASCADE
 );
+
+
+USE vetcare_djeniffer;
+
+SET @solicitante = 'Igor Gabriel';
+SET @equipe = 'DS24 M2';
+
+INSERT INTO chamados (
+    titulo,
+    modulo,
+    solicitante,
+    equipe,
+    descricao,
+    passos,
+    resultado_esperado,
+    resultado_obtido,
+    severidade,
+    prioridade
+) VALUES
+
+(
+    'Links de navegação direcionam para páginas incorretas',
+    'Outro',
+    @solicitante,
+    @equipe,
+    'Ao acessar páginas internas e utilizar os links do menu de navegação, o sistema pode direcionar para endereços incorretos ou apresentar páginas não encontradas.',
+    '1. Acesse o Painel inicial.
+2. Entre na página Tutores.
+3. Utilize os links do menu para acessar Animais e Consultas.
+4. Repita o procedimento em diferentes páginas.
+5. Clique em Sair.',
+    'Todos os links devem direcionar corretamente às respectivas páginas, independentemente da página em que o usuário esteja.',
+    'Os caminhos relativos utilizados no menu provocam direcionamentos incorretos quando o usuário está em diretórios internos.',
+    'Alta',
+    'Alta'
+),
+
+(
+    'Formulário de tutor perde os dados preenchidos após validação',
+    'Tutores',
+    @solicitante,
+    @equipe,
+    'Quando ocorre uma falha de preenchimento no formulário de tutor, os demais dados informados pelo usuário não são preservados.',
+    '1. Acesse Tutores.
+2. Clique em Novo tutor.
+3. Preencha telefone, e-mail e endereço.
+4. Deixe o nome vazio.
+5. Clique em Salvar.',
+    'O sistema deve apresentar a mensagem de validação e manter os demais campos preenchidos.',
+    'Após a validação, os dados anteriormente digitados deixam de aparecer nos campos.',
+    'Média',
+    'Média'
+),
+
+(
+    'Botão de cadastro de tutor não abre o formulário',
+    'Tutores',
+    @solicitante,
+    @equipe,
+    'Ao clicar no botão Novo tutor, o sistema apresenta uma mensagem de erro e impede o acesso ao formulário.',
+    '1. Acesse a página Tutores.
+2. Clique em Novo tutor.
+3. Observe a mensagem apresentada.',
+    'O sistema deve abrir o formulário para cadastrar um novo tutor.',
+    'O botão apresenta uma mensagem de erro e não permite acessar o formulário.',
+    'Alta',
+    'Alta'
+),
+
+(
+    'Tutores inativos aparecem para novos cadastros de animais',
+    'Animais',
+    @solicitante,
+    @equipe,
+    'Durante o cadastro de um novo animal, a seleção de tutores apresenta também pessoas com situação inativa.',
+    '1. Acesse Tutores.
+2. Identifique um tutor inativo.
+3. Acesse Animais.
+4. Clique em Novo animal.
+5. Abra a seleção de tutores.',
+    'O sistema deve apresentar somente tutores ativos para novos vínculos.',
+    'A lista apresenta tutores ativos e inativos, permitindo selecionar ambos.',
+    'Média',
+    'Média'
+),
+
+(
+    'Exclusão de tutor vinculado a animais não apresenta orientação',
+    'Tutores',
+    @solicitante,
+    @equipe,
+    'Ao tentar excluir um tutor que possui animais cadastrados, o sistema não apresenta uma orientação adequada sobre a existência dos vínculos.',
+    '1. Acesse Tutores.
+2. Localize um tutor que possua animais cadastrados.
+3. Clique em Excluir.
+4. Observe o comportamento apresentado.',
+    'O sistema deve informar que existem animais vinculados e explicar por que a exclusão não pode ser realizada.',
+    'A exclusão não é concluída e nenhuma mensagem clara é apresentada ao usuário.',
+    'Média',
+    'Média'
+),
+
+(
+    'Animais inativos aparecem sem identificação na listagem',
+    'Animais',
+    @solicitante,
+    @equipe,
+    'A listagem de animais apresenta registros ativos e inativos sem indicar visualmente a situação de cada paciente.',
+    '1. Acesse Animais.
+2. Localize um animal com situação inativa.
+3. Observe as informações apresentadas na tabela.',
+    'A listagem deve identificar claramente quais animais estão ativos e quais estão inativos.',
+    'Os animais aparecem na mesma listagem sem identificação da situação.',
+    'Média',
+    'Média'
+),
+
+(
+    'Exclusão de animais não é concluída',
+    'Animais',
+    @solicitante,
+    @equipe,
+    'Ao solicitar a exclusão de um animal cadastrado, o sistema não consegue concluir corretamente a operação.',
+    '1. Acesse Animais.
+2. Escolha um animal cadastrado.
+3. Clique em Excluir.
+4. Verifique novamente a listagem.',
+    'O animal selecionado deve ser removido do cadastro.',
+    'O sistema não consegue executar corretamente a exclusão do registro selecionado.',
+    'Alta',
+    'Alta'
+),
+
+(
+    'Idade do animal é calculada incorretamente',
+    'Animais',
+    @solicitante,
+    @equipe,
+    'A idade apresentada na listagem pode ficar incorreta, pois o cálculo considera apenas o ano de nascimento.',
+    '1. Acesse Animais.
+2. Localize um animal nascido em 20/12/2021.
+3. Observe a idade apresentada antes de 20/12/2026.',
+    'O sistema deve calcular a idade considerando dia, mês e ano de nascimento.',
+    'O sistema pode apresentar cinco anos, embora o animal ainda tenha quatro anos completos.',
+    'Média',
+    'Média'
+),
+
+(
+    'Animais inativos podem receber novas consultas',
+    'Consultas',
+    @solicitante,
+    @equipe,
+    'Ao agendar uma consulta, o sistema permite selecionar animais que estão com a situação inativa.',
+    '1. Acesse Animais.
+2. Identifique um animal inativo.
+3. Entre em Consultas.
+4. Clique em Nova consulta.
+5. Abra a lista de animais.',
+    'O sistema deve disponibilizar apenas animais ativos para novos agendamentos.',
+    'A lista apresenta animais ativos e inativos, permitindo selecionar ambos.',
+    'Alta',
+    'Alta'
+),
+
+(
+    'Filtro de status das consultas não funciona',
+    'Consultas',
+    @solicitante,
+    @equipe,
+    'Ao selecionar um status específico no filtro de consultas, a listagem continua apresentando registros de diferentes situações.',
+    '1. Acesse Consultas.
+2. Selecione Realizada no filtro de status.
+3. Clique em Filtrar.
+4. Observe os registros apresentados.',
+    'A listagem deve apresentar somente consultas com o status selecionado.',
+    'O sistema apresenta consultas agendadas, realizadas e canceladas mesmo após a aplicação do filtro.',
+    'Média',
+    'Alta'
+),
+
+(
+    'Sistema permite agendar consultas em datas passadas',
+    'Consultas',
+    @solicitante,
+    @equipe,
+    'O formulário de agendamento permite informar datas e horários anteriores ao momento atual.',
+    '1. Acesse Consultas.
+2. Clique em Nova consulta.
+3. Selecione um animal.
+4. Informe uma data e horário anteriores ao momento atual.
+5. Preencha os demais campos.
+6. Clique em Salvar.',
+    'O sistema deve impedir o agendamento de novas consultas em datas e horários passados.',
+    'O sistema permite salvar o agendamento mesmo com uma data anterior à atual.',
+    'Média',
+    'Média'
+),
+
+(
+    'Painel inicial apresenta consultas antigas como próximas',
+    'Dashboard',
+    @solicitante,
+    @equipe,
+    'Na seção Próximas consultas, o painel inicial apresenta consultas que já ocorreram, dificultando a identificação dos próximos atendimentos.',
+    '1. Acesse o sistema.
+2. Entre no Painel inicial.
+3. Localize Próximas consultas.
+4. Observe as datas e os horários apresentados.',
+    'O painel deve apresentar somente consultas futuras com status Agendada, organizadas em ordem cronológica.',
+    'O painel apresenta consultas anteriores à data atual entre os próximos atendimentos.',
+    'Alta',
+    'Alta'
+);
+
+INSERT INTO historico_chamados (
+    chamado_id,
+    autor,
+    comentario,
+    status_novo
+)
+SELECT
+    c.id,
+    @solicitante,
+    'Chamado registrado na central de suporte.',
+    'Aberto'
+FROM chamados c
+WHERE c.id IN (
+    SELECT ids.id
+    FROM (
+        SELECT id
+        FROM chamados
+        ORDER BY id DESC
+        LIMIT 12
+    ) AS ids
+);

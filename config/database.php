@@ -1,10 +1,11 @@
 <?php
 $host = 'localhost';
-$db   = 'vetcare';
+$db   = 'vetcare_djeniffer';
 $user = 'root';
+$port = '3307';
 $pass = '';
 $charset = 'utf8mb4';
-$dsn = "mysql:host=$host;port=6608;dbname=$db;charset=$charset";
+$dsn = "mysql:host=$host;port=3307;dbname=$db;charset=$charset";
 try {
     $pdo = new PDO($dsn, $user, $pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

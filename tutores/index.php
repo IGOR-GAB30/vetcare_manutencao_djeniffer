@@ -16,13 +16,19 @@ $rows = $stmt->fetchAll();
 include __DIR__ . '/../includes/header.php';
 ?>
 <h1>Tutores</h1>
+<?php if (!empty($_SESSION['mensagem'])): ?>
+    <div class="alert">
+        <?= htmlspecialchars($_SESSION['mensagem']) ?>
+    </div>
+    <?php unset($_SESSION['mensagem']); ?>
+<?php endif; ?>
 <p class="muted">Cadastro e consulta de responsáveis pelos animais.</p>
 <div class="actions"><a class="btn" href="form.php">+ Novo tutor</a></div>
 <section class="panel">
     <form method="get">
         <div class="field"><label>Buscar tutor</label><input name="busca" placeholder="Digite o nome"></div><button>Buscar</button>
     </form>
-</section>
+</section>z
 <div class="panel table-wrap">
     <table>
         <tr>
